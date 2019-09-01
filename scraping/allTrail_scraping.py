@@ -15,8 +15,11 @@ while elem.text != '':
 	except:
 		pass
 
-soup = BeautifulSoup(elem, 'html.parser')
-comments = soup.find_all()
+soup = BeautifulSoup(driver.page_source, 'html.parser')
+comments = soup.find_all("span", attrs={"small active rounded"})
+dates = [tms.find('meta', class_="conetent") for tms in soup.find_all("span", class_="subtext pull-right")]
+
+dates[1]
 
 
 
