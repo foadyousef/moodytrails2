@@ -14,13 +14,22 @@ while elem.text != '':
 		elem = driver.find_element_by_id("load_more")
 	except:
 		pass
-
+# Get tags
 soup = BeautifulSoup(driver.page_source, 'html.parser')
-comments = soup.find_all("span", attrs={"small active rounded"})
-dates = [tms.find('meta', class_="conetent") for tms in soup.find_all("span", class_="subtext pull-right")]
+tags = soup.find_all("span", attrs={"review-tags"})
 
-dates[1]
+tags[51]
 
 
+soup.select("")
+dates = [tms.find('meta') for tms in soup.find_all("div", class_="subtext pull-right")]
+
+str(dates[1]).split(' ')[1].split("=")[1]
+
+cnt = 0
+for i in dates:
+    if i != None:
+        print(i)
+        cnt+=1
 
 print("hello")
