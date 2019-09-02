@@ -34,3 +34,13 @@ for user in users:
     print(ct[0].text)
     
 # Tags
+    
+ctss = 0
+ts = []
+for user in users:
+    tgs = user.find_all('span', attrs={'small active rounded'})
+    ctss +=1
+    for i in range(len(tgs)):
+        print(tgs[i].text)
+        t = tgs[i].text
+        ts.append(t)
