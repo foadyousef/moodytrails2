@@ -4,7 +4,7 @@ from bs4 import BeautifulSoup
 
 
 driver = webdriver.Firefox()
-driver.get("https://www.alltrails.com/trail/us/south-carolina/north-augusta-greeneway-trail")
+driver.get("https://www.alltrails.com/trail/us/south-carolina/savannah-river-bluffs")
 
 elem = driver.find_element_by_id("load_more")
 
@@ -14,22 +14,23 @@ while elem.text != '':
 		elem = driver.find_element_by_id("load_more")
 	except:
 		pass
-# Get tags
+
+
+# Reviews
 soup = BeautifulSoup(driver.page_source, 'html.parser')
-tags = soup.find_all("span", attrs={"review-tags"})
+reviews = soup.find_all('div',attrs={"id":"reviews"})
 
-tags[51]
+# Users
+users = reviews[0].find_all('div', attrs={"feed-item"})
 
+# Dates
+for user in users:
+    dt = user.find_all('span', attrs={"subtext pull-right"})
+    print(dt[0].meta['content'])
 
-soup.select("")
-dates = [tms.find('meta') for tms in soup.find_all("div", class_="subtext pull-right")]
-
-str(dates[1]).split(' ')[1].split("=")[1]
-
-cnt = 0
-for i in dates:
-    if i != None:
-        print(i)
-        cnt+=1
-
-print("hello")
+# Comments
+for user in users:
+    ct = user.find_all('p', attrs={'xlate-google'})
+    print(ct[0].text)
+    
+# Tags
