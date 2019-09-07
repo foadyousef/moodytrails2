@@ -14,10 +14,15 @@ while elem.text != '':
 	except:
 		pass
 
-#Trail Diff
+# Trail Name
 soup = BeautifulSoup(driver.page_source, 'html.parser')
+
+
+
+#Trail Diff
 tdetail1 = soup.find_all('div',attrs={"id":"title-and-difficulty"})
 
+title = tdetail1[0].h1.text
 diff_lvl = tdetail1[0].span.text
 
 #Trail # reviews

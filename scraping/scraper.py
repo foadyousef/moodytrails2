@@ -15,6 +15,11 @@ def topTrail_url(turl, ntrail):
     import pandas as pd
     import time
     import math
+    from pyvirtualdisplay import Display
+    
+    # Make a hidden display window, comment out for interactive firfox window
+    display = Display(visible=0, size=(800,800))
+    display.start()
     
     
     driver = webdriver.Firefox()
@@ -23,7 +28,7 @@ def topTrail_url(turl, ntrail):
     elem = driver.find_element_by_xpath("//*[@id='load_more']/a/div/h3")
     
     # the lodear
-    while_lim = math.ceil(ntrail/24)-24
+    while_lim = math.ceil((ntrail-24)/24)
     cnt = 0
     while cnt < while_lim:
         try:
@@ -55,6 +60,7 @@ def topTrail_url(turl, ntrail):
     
     #close the driver
     driver.close()
+    display.stop()
     
     # saving the data
     df = pd.DataFrame(list(zip(nms, urls)), columns=['Trail_Name','Urls'])
@@ -80,6 +86,11 @@ def page_details(url):
     
     from selenium import webdriver
     from bs4 import BeautifulSoup
+    from pyvirtualdisplay import Display
+    
+    # Make a hidden display window, comment out for interactive firfox window
+    display = Display(visible=0, size=(800,800))
+    display.start()
     
     driver = webdriver.Firefox()
     driver.get(url)
@@ -87,6 +98,7 @@ def page_details(url):
     #Trail Diff
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     tdetail1 = soup.find_all('div',attrs={"id":"title-and-difficulty"})
+    title = tdetail1[0].h1.text
     diff_lvl = tdetail1[0].span.text
     
     #Trail # reviews
@@ -101,8 +113,9 @@ def page_details(url):
         thead = ""
     
     driver.close()
+    display.stop()
     
-    return [diff_lvl, review_count, thead]
+    return [title, diff_lvl, review_count, thead]
     
 
 
@@ -110,6 +123,11 @@ def page_load(url):
     from selenium import webdriver
     from bs4 import BeautifulSoup
     import pandas as pd
+    from pyvirtualdisplay import Display
+    
+    # Make a hidden display window, comment out for interactive firfox window
+    display = Display(visible=0, size=(800,800))
+    display.start()
     
     driver = webdriver.Firefox()
     driver.get(url)
@@ -161,6 +179,7 @@ def page_load(url):
     
     #close the driver
     driver.close()
+    display.stop()
     
     #Final Data Frame
     df = pd.DataFrame(list(zip(date, ts, coms)), columns=['Date','Tags','Comments'])
