@@ -4,14 +4,14 @@ import pandas as pd
 import time
 
 driver = webdriver.Firefox()
-driver.get("https://www.alltrails.com/us/utah/hiking")
+driver.get("https://www.alltrails.com/parks/us/utah/uinta-wasatch-cache-national-forest")
 
 
 elem = driver.find_element_by_xpath("//*[@id='load_more']/a/div/h3")
 
 # each load more loads 24 more trials. B/c I only need 200 top trails I will use a counter to stop the while loop!
 cnt = 0
-while cnt < 10:
+while cnt < 9:
     try:
         elem.click()
         elem = driver.find_element_by_xpath("//*[@id='load_more']/a/div/h3")
@@ -41,4 +41,5 @@ for trail in trails:
     
 
 df = pd.DataFrame(list(zip(nms, urls)), columns=['Trail_Name','Urls'])
+df.to_csv("Wasatch_trails")
 

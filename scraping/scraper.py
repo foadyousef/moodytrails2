@@ -1,6 +1,40 @@
 # This the Scraper
 
 
+def page_details(url):
+    
+    """
+    Captures the following:
+        Trail Diff
+        Trail # of reviews
+        Trailhead coordinate
+    """
+    
+    from selenium import webdriver
+    from bs4 import BeautifulSoup
+    
+    driver = webdriver.Firefox()
+    driver.get(url)
+    
+    #Trail Diff
+    soup = BeautifulSoup(driver.page_source, 'html.parser')
+    tdetail1 = soup.find_all('div',attrs={"id":"title-and-difficulty"})
+    diff_lvl = tdetail1[0].span.text
+    
+    #Trail # reviews
+    tdetail2 = soup.find_all('span',attrs={"itemprop":"reviewCount"})
+    review_count = tdetail2[0].text
+    
+    # Trail head
+    tdetail3 = soup.find_all('div',attrs={"class":"stats xlate-none"})
+    thead = tdetail3[0].text
+    
+    driver.close()
+    
+    return [diff_lvl, review_count, thead]
+    
+
+
 def page_load(url):
     from selenium import webdriver
     from bs4 import BeautifulSoup
@@ -53,6 +87,10 @@ def page_load(url):
             tl.append("")
         
         ts.append(tl)
+    
+    #close the driver
+    driver.close()
+    
     #Final Data Frame
     df = pd.DataFrame(list(zip(date, ts, coms)), columns=['Date','Tags','Comments'])
     return df

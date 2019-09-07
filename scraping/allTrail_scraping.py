@@ -3,7 +3,7 @@ from bs4 import BeautifulSoup
 import pandas as pd
 
 driver = webdriver.Firefox()
-driver.get("https://www.alltrails.com/trail/us/south-carolina/savannah-river-bluffs")
+driver.get("https://www.alltrails.com/trail/us/utah/cecret-lake-trail")
 
 elem = driver.find_element_by_id("load_more")
 
@@ -14,9 +14,23 @@ while elem.text != '':
 	except:
 		pass
 
+#Trail Diff
+soup = BeautifulSoup(driver.page_source, 'html.parser')
+tdetail1 = soup.find_all('div',attrs={"id":"title-and-difficulty"})
+
+diff_lvl = tdetail1[0].span.text
+
+#Trail # reviews
+tdetail2 = soup.find_all('span',attrs={"itemprop":"reviewCount"})
+review_cout = tdetail2[0].text
+
+# Trail head
+tdetail3 = soup.find_all('div',attrs={"class":"stats xlate-none"})
+thead = tdetail3[0].text
+
+
 
 # Reviews
-soup = BeautifulSoup(driver.page_source, 'html.parser')
 reviews = soup.find_all('div',attrs={"id":"reviews"})
 
 # Users
