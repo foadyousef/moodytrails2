@@ -132,15 +132,21 @@ def page_load(url):
     
     driver = webdriver.Firefox()
     driver.get(url)
-    elem = driver.find_element_by_id("load_more")
     
-    while elem.text != '':	
-        try:
-            elem.click()
-            time.sleep(3)
-            elem = driver.find_element_by_id("load_more")
-        except:
-            pass
+    # Some pages have less comments and therefore dont have load_more botton, this try loop is to avoid that
+    try: 
+        elem = driver.find_element_by_xpath("//*[@class='feed-item load-more']")
+        while elem.text != '':	
+            try:
+                elem.click()
+                time.sleep(5)
+                elem = driver.find_element_by_xpath("//*[@class='feed-item load-more']")
+            except:
+                pass
+    except:
+        pass
+    
+    
     # Reviews
     soup = BeautifulSoup(driver.page_source, 'html.parser')
     reviews = soup.find_all('div',attrs={"id":"reviews"})
