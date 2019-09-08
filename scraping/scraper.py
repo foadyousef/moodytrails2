@@ -33,8 +33,8 @@ def topTrail_url(turl, ntrail):
     while cnt < while_lim:
         try:
             elem.click()
-            elem = driver.find_element_by_xpath("//*[@id='load_more']/a/div/h3")
             time.sleep(3)
+            elem = driver.find_element_by_xpath("//*[@id='load_more']/a/div/h3")
             
         except:
             pass
@@ -124,6 +124,7 @@ def page_load(url):
     from bs4 import BeautifulSoup
     import pandas as pd
     from pyvirtualdisplay import Display
+    import time
     
     # Make a hidden display window, comment out for interactive firfox window
     display = Display(visible=0, size=(800,800))
@@ -136,6 +137,7 @@ def page_load(url):
     while elem.text != '':	
         try:
             elem.click()
+            time.sleep(3)
             elem = driver.find_element_by_id("load_more")
         except:
             pass
